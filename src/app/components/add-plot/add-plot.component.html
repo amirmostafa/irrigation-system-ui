@@ -1,0 +1,33 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>New Plot</mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="plotForm">
+        <mat-card-content>
+            <div class="column-container">
+                <mat-form-field appearance="fill">
+                    <mat-label>Name</mat-label>
+                    <input matInput [formControl]="plotForm.get('name')" required>
+                  </mat-form-field>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Crop</mat-label>
+                    <input matInput [formControl]="plotForm.get('crop')" required>
+                  </mat-form-field>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Area</mat-label>
+                    <input matInput type="number" [formControl]="plotForm.get('area')" required>
+                  </mat-form-field>
+                  <mat-form-field appearance="fill">
+                    <mat-label>Location</mat-label>
+                    <input matInput [formControl]="plotForm.get('location')">
+                  </mat-form-field>
+            </div>
+            
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button routerLink="/plots">CANCEL</button>
+            <button mat-raised-button color="primary" [disabled]="plotForm.invalid" (click)="save()">SAVE</button>
+        </mat-card-actions>
+    </form>
+</mat-card>
+

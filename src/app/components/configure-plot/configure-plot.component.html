@@ -1,0 +1,80 @@
+<mat-card>
+    <mat-card-header class="plots-header">
+        <mat-card-title>{{plot?.name}} Configuration</mat-card-title>
+        
+        <mat-card-actions>
+            <button mat-raised-button  color="primary" class="add-btn" (click)="predict()">PREDICT</button>
+        </mat-card-actions>
+     </mat-card-header>
+    <mat-card-content>
+        <form [formGroup]="plotForm" class="row-container">
+            <mat-form-field appearance="fill">
+                <mat-label>Start Time</mat-label>
+                <input matInput type="datetime-local" [formControl]="plotForm.get('startTime')" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>End Time</mat-label>
+                <input matInput type="datetime-local" [formControl]="plotForm.get('endTime')" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Interval Unit</mat-label>
+                <mat-select [formControl]="plotForm.get('intervalUnit')" required>
+                    <mat-option *ngFor="let unit of intervalUnits" [value]="unit">{{unit}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Time Interval</mat-label>
+                <input matInput type="number" [formControl]="plotForm.get('timeInterval')" required>
+            </mat-form-field>
+            
+            <mat-form-field appearance="fill">
+                <mat-label>Amount Of Water</mat-label>
+                <input matInput type="number" [formControl]="plotForm.get('amountOfWater')" required>
+            </mat-form-field>
+
+            <button mat-raised-button color="primary" [disabled]="plotForm.invalid" (click)="addConfig()">ADD</button>
+
+        </form>
+
+        <mat-table [dataSource]='plot?.plotConfig'>
+            <ng-container matColumnDef='id'>
+                <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
+                <mat-cell *matCellDef='let row;'>{{row.id}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='startTime'>
+                <mat-header-cell *matHeaderCellDef>Start Time</mat-header-cell>
+                <mat-cell *matCellDef='let row;'>{{row.startTime|date: "dd/MM/yyyy HH:mm"}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='endTime'>
+                <mat-header-cell *matHeaderCellDef>End Time</mat-header-cell>
+                <mat-cell *matCellDef='let row;'>{{row.endTime|date: "dd/MM/yyyy HH:mm"}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='every'>
+                <mat-header-cell *matHeaderCellDef>Every</mat-header-cell>
+                <mat-cell *matCellDef='let row;'>{{row.timeInterval + ' ' + row.intervalUnit}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='amountOfWater'>
+                <mat-header-cell *matHeaderCellDef>Amount Of Water</mat-header-cell>
+                <mat-cell *matCellDef='let row;'>{{row.amountOfWater}}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef='actions'>
+                <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+                <mat-cell *matCellDef='let row;'>
+                    <button mat-icon-button matTooltip="Delete" (click)="deleteConfig(row.id)">
+                        <mat-icon color='warn'>delete</mat-icon>
+                    </button>
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef='displayedColumns'>
+            </mat-header-row>
+            <mat-row *matRowDef='let row; columns: displayedColumns'></mat-row>
+        </mat-table>
+
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button routerLink="/plots">Back</button>
+    </mat-card-actions>
+  </mat-card>
